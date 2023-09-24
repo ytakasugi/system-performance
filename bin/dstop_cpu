@@ -1,0 +1,19 @@
+#!/bin/bash
+PID=`ps aux | grep "dstat -t -c" | grep -v grep | awk '{print $2}'`
+
+echo "kill -9 ${PID}"
+kill -9 ${PID}
+
+# CSVヘッダーを出力
+head -n 2 ./dstat/tmp_dstat_cpu.log | tail -n 1 | sed -e 's/|/ /g' -e 's/\:/ /g' -e 's/\s\+/,/2g' -e '1s/\s\+//1g' > ./dstat/dstat_cpu.csv
+
+# ファイルを行ごとに読み込みながら処理
+tail -n +3 ./dstat/tmp_dstat_cpu.log | while IFS= read -r line; do
+  # 行の "Time" と "Used" の間の | をカンマに置換し、
+  # その後のホワイトスペースをカンマに置き換えてCSV形式に変換して出力
+  csv_line=$(echo "$line" | sed -e 's/|/ /g' -e 's/\:\s\+/ /g' -e 's/\s\+/,/2g')
+  echo "$csv_line"
+done >> ./dstat/dstat_cpu.csv
+
+# 一時ファイルを削除
+rm ./dstat/tmp_dstat_cpu.log

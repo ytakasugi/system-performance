@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# ディレクトリが存在しなければ作成する
+if [ ! -d dstat ]; then
+  mkdir dstat
+fi
+
+./dstart_cpu

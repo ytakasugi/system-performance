@@ -1,0 +1,7 @@
+#!/bin/bash
+source ../etc/profile
+
+OUTFILE=tmp_dstat_cpu.log
+
+# dstatコマンドを実行して結果をファイルに保存
+dstat -t -c -C ${CPU_CORES} --noheaders > dstat/${OUTFILE} &
