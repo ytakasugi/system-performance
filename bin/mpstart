@@ -1,0 +1,5 @@
+#!/bin/bash
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=tmp_mpstat_${EXEC_DATE}.log
+
+mpstat -P ALL 1 > ${OUTFILE} &

@@ -1,0 +1,12 @@
+#!/bin/bash
+PID=`ps aux | grep "mpstat -P ALL" | grep -v grep | awk '{print $2}'`
+
+echo "kill -9 ${PID}"
+kill -9 ${PID}
+
+## ヘッダ出力
+head -n 3 tmp_mpstat*.log | tail -n 1 | sed 's/^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > mpstat.csv
+## CSV形式で出力
+awk '(NR > 1 && !/CPU/)' tmp_mpstat*.log | grep -v Average | sed -e '/^$/d' -e 's/ \+/,/g' >> mpstat.csv
+## 一時ファイルを削除
+rm tmp_mpstat*.log
