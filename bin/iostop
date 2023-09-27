@@ -1,6 +1,6 @@
 #!/bin/bash
 EXEC_DATE=`date '+%Y%m%d'`
-OUTFILE=iostat_${EXEC_DATE}.log
+OUTFILE=iostat_${EXEC_DATE}.csv
 PID=`ps aux | grep "iostat -mxd" | grep -v grep | awk '{print $2}'`
 
 echo "kill -9 ${PID}"
