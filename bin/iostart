@@ -1,0 +1,5 @@
+#!/bin/bash
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=tmp_iostat_${EXEC_DATE}.log
+
+iostat -mxd 1 | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' > ${OUTFILE} &

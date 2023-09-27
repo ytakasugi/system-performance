@@ -1,0 +1,5 @@
+#!/bin/bash
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=tmp_vmstat_${EXEC_DATE}.log
+
+vmstat -t 1 > ${OUTFILE} &

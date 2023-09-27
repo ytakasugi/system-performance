@@ -1,0 +1,11 @@
+#!/bin/bash
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=vmstat_${EXEC_DATE}.log
+PID=`ps aux | grep "vmstat -t" | grep -v grep | awk '{print $2}'`
+
+echo "kill -9 ${PID}"
+kill -9 ${PID}
+
+awk 'NR > 1' tmp_vmstat_*.log | sed -e 's/^ //g' -e 's/ \+/,/g' > ${OUTFILE}
+
+rm tmp_vmstat_*.log
