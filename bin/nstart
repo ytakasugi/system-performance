@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./sub_nstart 5 &

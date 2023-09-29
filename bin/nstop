@@ -1,0 +1,15 @@
+#!/bin/bash
+PID=`ps aux | grep nstart | grep -v grep | awk '{print $2}'`
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=nstat_${EXEC_DATE}.csv
+
+echo "kill -9 ${PID}"
+kill -9 ${PID}
+
+touch ${OUTFILE}
+echo -n "time,snmp,counter,unit" >> ${OUTFILE}
+echo >> ${OUTFILE}
+
+sed -e '/#kernel/d' -e 's/ \+/,/2g' tmp_nstat_${EXEC_DATE}.log >> ${OUTFILE}
+
+rm tmp_nstat_*.log
