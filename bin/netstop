@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source ../etc/profile
 
 EXEC_DATE=`date '+%Y%m%d'`
@@ -13,8 +12,9 @@ kill -9 ${PID}
 touch ${OUTFILE}
 ## CSVヘッダをリダイレクト
 #echo -n "TIme,Iface,MTU,RX-OK,RX-ERR,RX-DRP,RX-OVR,TX-OK,TX-ERR,TX-DRP,TX-OVR,Flg" > ${OUTFILE}
-head -n 2 | tail -n 1 | sed 's/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${OUTFILE}
-echo >> ${OUTFILE}
+head -n 2 tmp_netstat_${EXEC_DATE}.log | tail -n 1 | sed 's/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${OUTFILE}
+## 改行
+#echo >> ${OUTFILE}
 
 touch tmp_${OUTFILE}
 
