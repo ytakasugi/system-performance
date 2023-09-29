@@ -4,6 +4,6 @@ OUTFILE=tmp_nstat_${EXEC_DATE}.log
 
 while true;
 do
-  nstat | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' >> ${OUTFILE}
+  nstat -z | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' >> ${OUTFILE}
   sleep $1
 done
