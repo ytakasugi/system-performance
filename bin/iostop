@@ -27,5 +27,5 @@ cat tmp_${OUTFILE} | sort -t ',' -k 1,2 >> ${OUTFILE}
 ## デバイス毎のCSVを作成
 awk -F, 'NR == 1 {header = $0} NR > 1 {device = $2; filename = "iostat_device_"device".csv"; if (!(device in output_files)) {output_files[device] = filename; print header > filename} print >> output_files[device]}' ${OUTFILE}
 
-#rm tmp_iostat_*.log
-#rm tmp_iostat_*.csv
+rm tmp_iostat_*.log
+rm tmp_iostat_*.csv

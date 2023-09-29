@@ -1,0 +1,31 @@
+#!/bin/bash
+
+source ../etc/profile
+
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=netstat_${EXEC_DATE}.csv
+PID=`ps aux | grep "netstat -i -c" | grep -v grep | awk '{print $2}'`
+
+echo "kill -9 ${PID}"
+kill -9 ${PID}
+
+## 出力先CSVを作成
+touch ${OUTFILE}
+## CSVヘッダをリダイレクト
+echo -n "Iface,MTU,RX-OK,RX-ERR,RX-DRP,RX-OVR,TX-OK,TX-ERR,TX-DRP,TX-OVR,Flg" > ${OUTFILE}
+echo >> ${OUTFILE}
+
+touch tmp_${OUTFILE}
+
+for iface in ${NET_IFACE_LIST}
+do
+  grep ${iface} tmp_netstat_${EXEC_DATE}.log | sed -e 's/\s\+/,/2g' >> tmp_${OUTFILE}
+done
+
+cat tmp_${OUTFILE} | sort -t ',' -k 1,2 >> ${OUTFILE}
+
+## インターフェース毎のCSVを作成
+awk -F, 'NR == 1 {header = $0} NR > 1 {iface = $2; filename = "netstat_iface_"iface".csv"; if (!(iface in output_files)) {output_files[iface] = filename; print header > filename} print >> output_files[iface]}' ${OUTFILE}
+
+rm tmp_netstat_*.log
+rm tmp_netstat_*.csv

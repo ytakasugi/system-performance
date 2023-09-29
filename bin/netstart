@@ -1,0 +1,5 @@
+#!/bin/bash
+EXEC_DATE=`date '+%Y%m%d'`
+OUTFILE=tmp_netstat_${EXEC_DATE}.log
+
+netstat -i -c | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' > ${OUTFILE} &
