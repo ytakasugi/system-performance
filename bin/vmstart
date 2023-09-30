@@ -1,5 +1,11 @@
 #!/bin/bash
+source ../etc/profile
+
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=tmp_vmstat_${EXEC_DATE}.log
 
-vmstat -t 1 > ${OUTFILE} &
+if [ ! -d ${VMSTAT_DIR} ]; then
+  mkdir ${VMSTAT_DIR}
+fi
+
+vmstat -t 1 > ${VMSTAT_DIR}/${OUTFILE} &

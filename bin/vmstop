@@ -1,4 +1,6 @@
 #!/bin/bash
+source ../etc/profile
+
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=vmstat_${EXEC_DATE}.csv
 PID=`ps aux | grep "vmstat -t" | grep -v grep | awk '{print $2}'`
@@ -6,6 +8,6 @@ PID=`ps aux | grep "vmstat -t" | grep -v grep | awk '{print $2}'`
 echo "kill -9 ${PID}"
 kill -9 ${PID}
 
-awk 'NR > 1' tmp_vmstat_*.log | sed -e 's/^ //g' -e 's/\s\+/,/g' -e 's/,/ /18g' > ${OUTFILE}
+awk 'NR > 1' ${VMSTAT_DIR}/tmp_vmstat_*.log | sed -e 's/^ //g' -e 's/\s\+/,/g' -e 's/,/ /18g' > ${VMSTAT_DIR}/${OUTFILE}
 
-rm tmp_vmstat_*.log
+rm ${VMSTAT_DIR}/tmp_vmstat_*.log

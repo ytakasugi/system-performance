@@ -1,4 +1,6 @@
 #!/bin/bash
+source ../etc/profile
+
 PID=`ps aux | grep nstart | grep -v grep | awk '{print $2}'`
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=nstat_${EXEC_DATE}.csv
@@ -6,10 +8,10 @@ OUTFILE=nstat_${EXEC_DATE}.csv
 echo "kill -9 ${PID}"
 kill -9 ${PID}
 
-touch ${OUTFILE}
-echo -n "time,snmp,counter,unit" >> ${OUTFILE}
-echo >> ${OUTFILE}
+touch ${NSTAT_DIR}/${OUTFILE}
+echo -n "time,snmp,counter,unit" >> ${NSTAT_DIR}/${OUTFILE}
+echo >> ${NSTAT_DIR}/${OUTFILE}
 
-sed -e '/#kernel/d' -e 's/ \+/,/2g' tmp_nstat_${EXEC_DATE}.log >> ${OUTFILE}
+sed -e '/#kernel/d' -e 's/ \+/,/2g' ${NSTAT_DIR}/tmp_nstat_${EXEC_DATE}.log >> ${NSTAT_DIR}/${OUTFILE}
 
-rm tmp_nstat_*.log
+rm ${NSTAT_DIR}/tmp_nstat_*.log

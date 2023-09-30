@@ -1,5 +1,11 @@
 #!/bin/bash
+source ../etc/profile
+
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=tmp_mpstat_${EXEC_DATE}.log
 
-mpstat -P ALL 1 > ${OUTFILE} &
+if [ ! -d ${MPSTAT_DIR} ]; then
+  mkdir ${MPSTAT_DIR}
+fi
+
+mpstat -P ALL 1 > ${MPSTAT_DIR}/${OUTFILE} &

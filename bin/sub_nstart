@@ -1,9 +1,15 @@
 #!/bin/bash
+source ../etc/profile
+
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=tmp_nstat_${EXEC_DATE}.log
 
+if [ ! -d ${NSTAT_DIR} ]; then
+  mkdir ${NSTAT_DIR}
+fi
+
 while true;
 do
-  nstat -z | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' >> ${OUTFILE}
+  nstat -z | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' >> ${NSTAT_DIR}/${OUTFILE}
   sleep $1
 done

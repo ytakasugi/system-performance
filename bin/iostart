@@ -1,5 +1,11 @@
 #!/bin/bash
+source ../etc/profile
+
 EXEC_DATE=`date '+%Y%m%d'`
 OUTFILE=tmp_iostat_${EXEC_DATE}.log
 
-iostat -mxd 1 | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' > ${OUTFILE} &
+if [ ! -d ${IOSTAT_DIR} ]; then
+  mkdir ${IOSTAT_DIR}
+fi
+
+iostat -mxd 1 | awk '{print strftime("%Y-%m-%d %H:%M:%S"), $0}' > ${IOSTAT_DIR}/${OUTFILE} &

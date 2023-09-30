@@ -3,3 +3,9 @@ CPU_CORES=0,1,2,3,total
 DEVICE_LIST="loop0 loop1 loop2 sda sdb sdc sdd sde"
 # netstat -i | tail -n 2 | awk '{print $1}' | sed ':a;N;$!ba; s/\n/ /g'
 NET_IFACE_LIST="eth0 lo"
+# CSV出力先
+MPSTAT_DIR=mpstat
+IOSTAT_DIR=iostat
+VMSTAT_DIR=vmstat
+NETSTAT_DIR=netstat
+NSTAT_DIR=nstat

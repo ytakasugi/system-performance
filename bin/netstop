@@ -9,24 +9,24 @@ echo "kill -9 ${PID}"
 kill -9 ${PID}
 
 ## 出力先CSVを作成
-touch ${OUTFILE}
+touch ${NETSTAT_DIR}/${OUTFILE}
 ## CSVヘッダをリダイレクト
 #echo -n "Time,Iface,MTU,RX-OK,RX-ERR,RX-DRP,RX-OVR,TX-OK,TX-ERR,TX-DRP,TX-OVR,Flg" > ${OUTFILE}
-head -n 2 tmp_netstat_${EXEC_DATE}.log | tail -n 1 | sed 's/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${OUTFILE}
+head -n 2 ${NETSTAT_DIR}/tmp_netstat_${EXEC_DATE}.log | tail -n 1 | sed 's/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${NETSTAT_DIR}/${OUTFILE}
 ## 改行
 #echo >> ${OUTFILE}
 
-touch tmp_${OUTFILE}
+touch ${NETSTAT_DIR}/tmp_${OUTFILE}
 
 for iface in ${NET_IFACE_LIST}
 do
-  grep ${iface} tmp_netstat_${EXEC_DATE}.log | sed -e 's/\s\+/,/2g' >> tmp_${OUTFILE}
+  grep ${iface} ${NETSTAT_DIR}/tmp_netstat_${EXEC_DATE}.log | sed -e 's/\s\+/,/2g' >> ${NETSTAT_DIR}/tmp_${OUTFILE}
 done
 
-cat tmp_${OUTFILE} | sort -t ',' -k 1,2 >> ${OUTFILE}
+cat ${NETSTAT_DIR}/tmp_${OUTFILE} | sort -t ',' -k 1,2 >> ${NETSTAT_DIR}/${OUTFILE}
 
 ## インターフェース毎のCSVを作成
-awk -F, 'NR == 1 {header = $0} NR > 1 {iface = $2; filename = "netstat_iface_"iface".csv"; if (!(iface in output_files)) {output_files[iface] = filename; print header > filename} print >> output_files[iface]}' ${OUTFILE}
+awk -F, 'NR == 1 {header = $0} NR > 1 {iface = $2; filename = "netstat/netstat_iface_"iface".csv"; if (!(iface in output_files)) {output_files[iface] = filename; print header > filename} print >> output_files[iface]}' ${NETSTAT_DIR}/${OUTFILE}
 
-rm tmp_netstat_*.log
-rm tmp_netstat_*.csv
+rm ${NETSTAT_DIR}/tmp_netstat_*.log
+rm ${NETSTAT_DIR}/tmp_netstat_*.csv
