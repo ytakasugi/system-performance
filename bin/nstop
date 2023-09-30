@@ -14,4 +14,7 @@ echo >> ${NSTAT_DIR}/${OUTFILE}
 
 sed -e '/#kernel/d' -e 's/ \+/,/2g' ${NSTAT_DIR}/tmp_nstat_${EXEC_DATE}.log >> ${NSTAT_DIR}/${OUTFILE}
 
+awk -F, 'NR == 1 {header = $0} NR > 1 {snmp = $2; filename = "nstat/nstat_"snmp".csv"; if (!(snmp in output_files)) {output_files[snmp] = filename; print header > filename} print >> output_files[snmp]}' ${NSTAT_DIR}/${OUTFILE}
+
+
 rm ${NSTAT_DIR}/tmp_nstat_*.log

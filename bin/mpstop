@@ -3,16 +3,17 @@ source ../etc/profile
 
 EXEC_DATE=`date '+%Y%m%d'`
 PID=`ps aux | grep "mpstat -P ALL" | grep -v grep | awk '{print $2}'`
+OUTFILE=mpstat_${EXEC_DATE}.csv
 LOGICAL_PROCESSOR=`grep processor /proc/cpuinfo | wc -l`
 
 echo "kill -9 ${PID}"
 kill -9 ${PID}
 
 ## ヘッダ出力
-head -n 3 ${MPSTAT_DIR}/tmp_mpstat*.log | tail -n 1 | sed 's/^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${MPSTAT_DIR}/mpstat_${EXEC_DATE}.csv
+head -n 3 ${MPSTAT_DIR}/tmp_mpstat*.log | tail -n 1 | sed 's/^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/Time/' | sed 's/ \+/,/g' > ${MPSTAT_DIR}/${OUTFILE}
 ## CSV形式で出力
-awk '(NR > 1 && !/CPU/)' ${MPSTAT_DIR}/tmp_mpstat*.log | grep -v Average | sed -e '/^$/d' -e 's/ \+/,/g' >> ${MPSTAT_DIR}/mpstat_${EXEC_DATE}.csv
+awk '(NR > 1 && !/CPU/)' ${MPSTAT_DIR}/tmp_mpstat*.log | grep -v Average | sed -e '/^$/d' -e 's/ \+/,/g' >> ${MPSTAT_DIR}/${OUTFILE}
 ## 論理コア毎のファイルを作成し、出力する
-awk -F, 'NR == 1 {header = $0} NR > 1 {cpu = $2; filename = "mpstat/mpstat_core_"cpu".csv"; if (!(cpu in output_files)) {output_files[cpu] = filename; print header > filename} print >> output_files[cpu]}' ${MPSTAT_DIR}/mpstat_${EXEC_DATE}.csv
+awk -F, 'NR == 1 {header = $0} NR > 1 {cpu = $2; filename = "mpstat/mpstat_core_"cpu".csv"; if (!(cpu in output_files)) {output_files[cpu] = filename; print header > filename} print >> output_files[cpu]}' ${MPSTAT_DIR}/${OUTFILE}
 ## 一時ファイルを削除
 rm ${MPSTAT_DIR}/tmp_mpstat*.log
