@@ -1,3 +1,3 @@
 # system-performance
 
-- [‚¢‚Ü‚³‚ç•·‚¯‚È‚¢Linux‚Æƒƒ‚ƒŠ‚ÌŠî‘b•vmstat‚ÌÚ‚µ‚¢g‚¢•û](https://qiita.com/kunihirotanaka/items/70d43d48757aea79de2d)
+- [ã„ã¾ã•ã‚‰èã‘ãªã„Linuxã¨ãƒ¡ãƒ¢ãƒªã®åŸºç¤ï¼†vmstatã®è©³ã—ã„ä½¿ã„æ–¹](https://qiita.com/kunihirotanaka/items/70d43d48757aea79de2d)
